@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2969118489388876254}
   - component: {fileID: 2969118489388876255}
   - component: {fileID: 1406068578}
-  - component: {fileID: 7182872487582677474}
-  - component: {fileID: 5946520878128490674}
+  - component: {fileID: 7274693360330742427}
+  - component: {fileID: -3416638533640612840}
   m_Layer: 5
   m_Name: EnemyHand
   m_TagString: Untagged
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Spacing: {x: -82.26, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
---- !u!114 &7182872487582677474
+--- !u!114 &7274693360330742427
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,7 +114,7 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &5946520878128490674
+--- !u!114 &-3416638533640612840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -158,8 +158,8 @@ GameObject:
   - component: {fileID: -4535594882505892684}
   - component: {fileID: -3981736491127458029}
   - component: {fileID: -7761950066908762977}
-  - component: {fileID: 2857202280133238813}
-  - component: {fileID: -305878363559808644}
+  - component: {fileID: 4251354303980647635}
+  - component: {fileID: -6540593137668578306}
   m_Layer: 8
   m_Name: Card1
   m_TagString: Untagged
@@ -372,7 +372,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
---- !u!114 &2857202280133238813
+--- !u!114 &4251354303980647635
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -388,7 +388,7 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &-305878363559808644
+--- !u!114 &-6540593137668578306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

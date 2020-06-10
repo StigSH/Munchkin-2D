@@ -91,8 +91,8 @@ GameObject:
   - component: {fileID: 3020701542657391392}
   - component: {fileID: 3020701542657391393}
   - component: {fileID: 3020701542657391398}
-  - component: {fileID: 8356790484784428342}
-  - component: {fileID: 816323279601214908}
+  - component: {fileID: -4067303041183926632}
+  - component: {fileID: -8509921311949614476}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -227,7 +227,7 @@ MonoBehaviour:
   Card2: {fileID: 9084121523062540237, guid: b42fc0e954b0f9342ac3276d20cfe49b, type: 3}
   PlayerHand: {fileID: 0}
   EnemyHand: {fileID: 0}
---- !u!114 &8356790484784428342
+--- !u!114 &-4067303041183926632
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -243,7 +243,7 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &816323279601214908
+--- !u!114 &-8509921311949614476
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

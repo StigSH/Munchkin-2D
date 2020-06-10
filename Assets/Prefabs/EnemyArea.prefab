@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 332019864715155040}
   - component: {fileID: 2976319057713719652}
   - component: {fileID: 3824012796385219828}
-  - component: {fileID: 1446580560289825960}
-  - component: {fileID: 3430792760677335940}
+  - component: {fileID: 6173749863398858313}
+  - component: {fileID: 4599940428107943087}
   m_Layer: 5
   m_Name: EnemyArea
   m_TagString: Untagged
@@ -73,7 +73,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &1446580560289825960
+--- !u!114 &6173749863398858313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,7 +89,7 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &3430792760677335940
+--- !u!114 &4599940428107943087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
