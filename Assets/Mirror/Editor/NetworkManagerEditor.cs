@@ -31,8 +31,7 @@ namespace Mirror
                     onRemoveCallback = RemoveButton,
                     onChangedCallback = Changed,
                     onAddCallback = AddButton,
-                    // this uses a 16x16 icon. other sizes make it stretch.
-                    elementHeight = 16
+                    elementHeight = 16 // this uses a 16x16 icon. other sizes make it stretch.
                 };
             }
         }

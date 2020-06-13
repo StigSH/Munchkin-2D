@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2224806042877953476}
-  - component: {fileID: -1839387108672552411}
-  - component: {fileID: -5690226513003913094}
+  - component: {fileID: 5679585051617408334}
+  - component: {fileID: 2856830140786029335}
+  - component: {fileID: 1439302614088520723}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1839387108672552411
+--- !u!114 &5679585051617408334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,14 +42,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 4135917188527191632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: 8adfa714657bdbb42bd6e47beb7d54c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Card1: {fileID: 4750502998070953752, guid: 640fc5463be464c4bb1140570bcb863c, type: 3}
+  Card2: {fileID: 9084121523062540237, guid: b42fc0e954b0f9342ac3276d20cfe49b, type: 3}
+  PlayerHand: {fileID: 0}
+  EnemyHand: {fileID: 0}
+  PlayerArea: {fileID: 0}
+  MainCanvas: {fileID: 0}
+--- !u!114 &2856830140786029335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4135917188527191632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c43194c469aa73249b8c9883214f0750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
-  hasSpawned: 0
---- !u!114 &-5690226513003913094
+--- !u!114 &1439302614088520723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,7 +77,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4135917188527191632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: bb5e996da7bf7a34e85f27a4c44331b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -66,3 +86,4 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
+  compressRotation: 1

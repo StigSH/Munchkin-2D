@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Mirror.Examples.NetworkRoom
 {
@@ -19,26 +18,6 @@ namespace Mirror.Examples.NetworkRoom
             PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
             playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
             return true;
-        }
-
-        public override void OnRoomStopClient()
-        {
-            // Demonstrates how to get the Network Manager out of DontDestroyOnLoad when
-            // going to the offline scene to avoid collision with the one that lives there.
-            if (gameObject.scene.name == "DontDestroyOnLoad" && !string.IsNullOrEmpty(offlineScene) && SceneManager.GetActiveScene().path != offlineScene)
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-
-            base.OnRoomStopClient();
-        }
-
-        public override void OnRoomStopServer()
-        {
-            // Demonstrates how to get the Network Manager out of DontDestroyOnLoad when
-            // going to the offline scene to avoid collision with the one that lives there.
-            if (gameObject.scene.name == "DontDestroyOnLoad" && !string.IsNullOrEmpty(offlineScene) && SceneManager.GetActiveScene().path != offlineScene)
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-
-            base.OnRoomStopServer();
         }
 
         /*

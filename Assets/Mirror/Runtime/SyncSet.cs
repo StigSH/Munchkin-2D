@@ -5,6 +5,7 @@ using System.ComponentModel;
 
 namespace Mirror
 {
+
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class SyncSet<T> : ISet<T>, SyncObject
     {
@@ -39,14 +40,6 @@ namespace Mirror
         protected SyncSet(ISet<T> objects)
         {
             this.objects = objects;
-        }
-
-        public void Reset()
-        {
-            IsReadOnly = false;
-            changes.Clear();
-            changesAhead = 0;
-            objects.Clear();
         }
 
         protected virtual void SerializeItem(NetworkWriter writer, T item) { }

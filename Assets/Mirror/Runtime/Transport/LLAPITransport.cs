@@ -67,8 +67,7 @@ namespace Mirror
             MaxTimerTimeout = 12000
         };
 
-        // always use first channel
-        readonly int channelId;
+        readonly int channelId; // always use first channel
         byte error;
 
         int clientId = -1;

@@ -1,14 +1,23 @@
 using System;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Mirror
 {
+    // Deprecated 12/31/2018
+    [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use NetworkBehaviour.syncInterval field instead. Can be modified in the Inspector too.")]
+    [AttributeUsage(AttributeTargets.Class)]
+    public class NetworkSettingsAttribute : Attribute
+    {
+        public float sendInterval = 0.1f;
+    }
+
     /// <summary>
     /// SyncVars are used to synchronize a variable from the server to all clients automatically.
     /// <para>Value must be changed on server, not directly by clients.  Hook parameter allows you to define a client-side method to be invoked when the client gets an update from the server.</para>
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class SyncVarAttribute : PropertyAttribute
+    public class SyncVarAttribute : Attribute
     {
         public string hook;
     }
@@ -20,8 +29,7 @@ namespace Mirror
     [AttributeUsage(AttributeTargets.Method)]
     public class CommandAttribute : Attribute
     {
-        // this is zero
-        public int channel = Channels.DefaultReliable;
+        public int channel = Channels.DefaultReliable; // this is zero
     }
 
     /// <summary>
@@ -30,8 +38,7 @@ namespace Mirror
     [AttributeUsage(AttributeTargets.Method)]
     public class ClientRpcAttribute : Attribute
     {
-        // this is zero
-        public int channel = Channels.DefaultReliable;
+        public int channel = Channels.DefaultReliable; // this is zero
     }
 
     /// <summary>
@@ -40,8 +47,7 @@ namespace Mirror
     [AttributeUsage(AttributeTargets.Method)]
     public class TargetRpcAttribute : Attribute
     {
-        // this is zero
-        public int channel = Channels.DefaultReliable;
+        public int channel = Channels.DefaultReliable; // this is zero
     }
 
     /// <summary>
@@ -50,8 +56,7 @@ namespace Mirror
     [AttributeUsage(AttributeTargets.Event)]
     public class SyncEventAttribute : Attribute
     {
-        // this is zero
-        public int channel = Channels.DefaultReliable;
+        public int channel = Channels.DefaultReliable; // this is zero
     }
 
     /// <summary>
@@ -86,11 +91,4 @@ namespace Mirror
     /// Converts a string property into a Scene property in the inspector
     /// </summary>
     public class SceneAttribute : PropertyAttribute { }
-
-    /// <summary>
-    /// Used to show private SyncList in the inspector,
-    /// <para> Use instead of SerializeField for non Serializable types </para>
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
-    public class ShowInInspectorAttribute : Attribute { }
 }

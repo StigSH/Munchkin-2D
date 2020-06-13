@@ -19,6 +19,138 @@ namespace Mirror
         public virtual void Serialize(NetworkWriter writer) { }
     }
 
+    #region General Typed Messages
+
+    // Deprecated 11/20/2019
+    [Obsolete("Create your own message class instead")]
+    public class StringMessage : MessageBase
+    {
+        public string value;
+
+        public StringMessage() { }
+
+        public StringMessage(string v)
+        {
+            value = v;
+        }
+
+        public override void Deserialize(NetworkReader reader)
+        {
+            value = reader.ReadString();
+        }
+
+        public override void Serialize(NetworkWriter writer)
+        {
+            writer.WriteString(value);
+        }
+    }
+
+    // Deprecated 11/20/2019
+    [Obsolete("Create your own message class instead")]
+    public class ByteMessage : MessageBase
+    {
+        public byte value;
+
+        public ByteMessage() { }
+
+        public ByteMessage(byte v)
+        {
+            value = v;
+        }
+
+        public override void Deserialize(NetworkReader reader)
+        {
+            value = reader.ReadByte();
+        }
+
+        public override void Serialize(NetworkWriter writer)
+        {
+            writer.WriteByte(value);
+        }
+    }
+
+    // Deprecated 11/20/2019
+    [Obsolete("Create your own message class instead")]
+    public class BytesMessage : MessageBase
+    {
+        public byte[] value;
+
+        public BytesMessage() { }
+
+        public BytesMessage(byte[] v)
+        {
+            value = v;
+        }
+
+        public override void Deserialize(NetworkReader reader)
+        {
+            value = reader.ReadBytesAndSize();
+        }
+
+        public override void Serialize(NetworkWriter writer)
+        {
+            writer.WriteBytesAndSize(value);
+        }
+    }
+
+    // Deprecated 11/20/2019
+    [Obsolete("Create your own message class instead")]
+    public class IntegerMessage : MessageBase
+    {
+        public int value;
+
+        public IntegerMessage() { }
+
+        public IntegerMessage(int v)
+        {
+            value = v;
+        }
+
+        public override void Deserialize(NetworkReader reader)
+        {
+            value = reader.ReadPackedInt32();
+        }
+
+        public override void Serialize(NetworkWriter writer)
+        {
+            writer.WritePackedInt32(value);
+        }
+    }
+
+    // Deprecated 11/20/2019
+    [Obsolete("Create your own message class instead")]
+    public class DoubleMessage : MessageBase
+    {
+        public double value;
+
+        public DoubleMessage() { }
+
+        public DoubleMessage(double v)
+        {
+            value = v;
+        }
+
+        public override void Deserialize(NetworkReader reader)
+        {
+            value = reader.ReadDouble();
+        }
+
+        public override void Serialize(NetworkWriter writer)
+        {
+            writer.WriteDouble(value);
+        }
+    }
+
+    // Deprecated 11/20/2019
+    [Obsolete("Create your own message class instead")]
+    public class EmptyMessage : MessageBase
+    {
+        public override void Deserialize(NetworkReader reader) { }
+
+        public override void Serialize(NetworkWriter writer) { }
+    }
+    #endregion
+
     #region Public System Messages
     public struct ErrorMessage : IMessageBase
     {
@@ -56,16 +188,34 @@ namespace Mirror
 
     public struct AddPlayerMessage : IMessageBase
     {
-        public void Deserialize(NetworkReader reader) { }
+        // Deprecated 09/29/2019
+        /// <summary>
+        /// Obsolete: Create your own message instead. See <a href="../Guides/GameObjects/SpawnPlayerCustom.md">Custom Players</a>
+        /// </summary>
+        [Obsolete("Create your own message instead. See https://mirror-networking.com/docs/Guides/GameObjects/SpawnPlayerCustom.html")]
+        public byte[] value;
 
-        public void Serialize(NetworkWriter writer) { }
+        // Deprecated 09/29/2019
+        /// <summary>
+        /// Obsolete: Create your own message instead. See <a href="../Guides/GameObjects/SpawnPlayerCustom.md">Custom Players</a>
+        /// </summary>
+        [Obsolete("Create your own message instead. See https://mirror-networking.com/docs/Guides/GameObjects/SpawnPlayerCustom.html")]
+        public void Deserialize(NetworkReader reader)
+        {
+            value = reader.ReadBytesAndSize();
+        }
+
+        // Deprecated 09/29/2019
+        /// <summary>
+        /// Obsolete: Create your own message instead. See <a href="../Guides/GameObjects/SpawnPlayerCustom.md">Custom Players</a>
+        /// </summary>
+        [Obsolete("Create your own message instead. See https://mirror-networking.com/docs/Guides/GameObjects/SpawnPlayerCustom.html")]
+        public void Serialize(NetworkWriter writer)
+        {
+            writer.WriteBytesAndSize(value);
+        }
     }
 
-    // Deprecated 5/2/2020
-    /// <summary>
-    /// Obsolete: Removed as a security risk. Use <see cref="NetworkServer.RemovePlayerForConnection(NetworkConnection, GameObject, bool)"/> instead.
-    /// </summary>
-    [Obsolete("Removed as a security risk. Use NetworkServer.RemovePlayerForConnection(NetworkConnection conn, GameObject player, bool keepAuthority = false) instead")]
     public struct RemovePlayerMessage : IMessageBase
     {
         public void Deserialize(NetworkReader reader) { }
@@ -90,8 +240,7 @@ namespace Mirror
     public struct SceneMessage : IMessageBase
     {
         public string sceneName;
-        // Normal = 0, LoadAdditive = 1, UnloadAdditive = 2
-        public SceneOperation sceneOperation;
+        public SceneOperation sceneOperation; // Normal = 0, LoadAdditive = 1, UnloadAdditive = 2
         public bool customHandling;
 
         public void Deserialize(NetworkReader reader)
@@ -132,8 +281,7 @@ namespace Mirror
         {
             netId = reader.ReadPackedUInt32();
             componentIndex = (int)reader.ReadPackedUInt32();
-            // hash is always 4 full bytes, WritePackedInt would send 1 extra byte here
-            functionHash = reader.ReadInt32();
+            functionHash = reader.ReadInt32(); // hash is always 4 full bytes, WritePackedInt would send 1 extra byte here
             payload = reader.ReadBytesAndSizeSegment();
         }
 
@@ -159,8 +307,7 @@ namespace Mirror
         {
             netId = reader.ReadPackedUInt32();
             componentIndex = (int)reader.ReadPackedUInt32();
-            // hash is always 4 full bytes, WritePackedInt would send 1 extra byte here
-            functionHash = reader.ReadInt32();
+            functionHash = reader.ReadInt32(); // hash is always 4 full bytes, WritePackedInt would send 1 extra byte here
             payload = reader.ReadBytesAndSizeSegment();
         }
 
@@ -186,8 +333,7 @@ namespace Mirror
         {
             netId = reader.ReadPackedUInt32();
             componentIndex = (int)reader.ReadPackedUInt32();
-            // hash is always 4 full bytes, WritePackedInt would send 1 extra byte here
-            functionHash = reader.ReadInt32();
+            functionHash = reader.ReadInt32(); // hash is always 4 full bytes, WritePackedInt would send 1 extra byte here
             payload = reader.ReadBytesAndSizeSegment();
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mirror
@@ -9,19 +10,21 @@ namespace Mirror
     {
         internal ULocalConnectionToServer connectionToServer;
 
-        public ULocalConnectionToClient() : base(0) { }
+        public ULocalConnectionToClient() : base(0)
+        {
+        }
 
         public override string address => "localhost";
 
         internal override bool Send(ArraySegment<byte> segment, int channelId = Channels.DefaultReliable)
         {
-            connectionToServer.buffer.Write(segment);
-
+            // LocalConnection doesn't support allocation-free sends yet.
+            // previously we allocated in Mirror. now we do it here.
+            byte[] data = new byte[segment.Count];
+            Array.Copy(segment.Array, segment.Offset, data, 0, segment.Count);
+            connectionToServer.packetQueue.Enqueue(data);
             return true;
         }
-
-        // override for host client: always return true.
-        internal override bool IsClientAlive() => true;
 
         internal void DisconnectInternal()
         {
@@ -41,48 +44,16 @@ namespace Mirror
         }
     }
 
-    internal class LocalConnectionBuffer
-    {
-        readonly NetworkWriter writer = new NetworkWriter();
-        readonly NetworkReader reader = new NetworkReader(default(ArraySegment<byte>));
-        // The buffer is atleast 1500 bytes long. So need to keep track of
-        // packet count to know how many ArraySegments are in the buffer
-        int packetCount;
-
-        public void Write(ArraySegment<byte> segment)
-        {
-            writer.WriteBytesAndSizeSegment(segment);
-            packetCount++;
-
-            // update buffer incase writer's length has changed
-            reader.buffer = writer.ToArraySegment();
-        }
-
-        public bool HasPackets()
-        {
-            return packetCount > 0;
-        }
-        public ArraySegment<byte> GetNextPacket()
-        {
-            ArraySegment<byte> packet = reader.ReadBytesAndSizeSegment();
-            packetCount--;
-
-            return packet;
-        }
-
-        public void ResetBuffer()
-        {
-            writer.Reset();
-            reader.Position = 0;
-        }
-    }
-
     // a localClient's connection TO a server.
     // send messages on this connection causes the server's handler function to be invoked directly.
     internal class ULocalConnectionToServer : NetworkConnectionToServer
     {
         internal ULocalConnectionToClient connectionToClient;
-        internal readonly LocalConnectionBuffer buffer = new LocalConnectionBuffer();
+
+        // local client in host mode might call Cmds/Rpcs during Update, but we
+        // want to apply them in LateUpdate like all other Transport messages
+        // to avoid race conditions. keep packets in Queue until LateUpdate.
+        internal Queue<byte[]> packetQueue = new Queue<byte[]>();
 
         public override string address => "localhost";
 
@@ -102,16 +73,13 @@ namespace Mirror
         internal void Update()
         {
             // process internal messages so they are applied at the correct time
-            while (buffer.HasPackets())
+            while (packetQueue.Count > 0)
             {
-                ArraySegment<byte> packet = buffer.GetNextPacket();
-
+                byte[] packet = packetQueue.Dequeue();
                 // Treat host player messages exactly like connected client
                 // to avoid deceptive / misleading behavior differences
-                TransportReceive(packet, Channels.DefaultReliable);
+                TransportReceive(new ArraySegment<byte>(packet), Channels.DefaultReliable);
             }
-
-            buffer.ResetBuffer();
         }
 
         /// <summary>

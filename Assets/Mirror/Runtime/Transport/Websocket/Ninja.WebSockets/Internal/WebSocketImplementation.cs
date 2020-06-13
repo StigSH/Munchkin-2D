@@ -21,6 +21,7 @@
 // ---------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Security;
@@ -62,6 +63,8 @@ namespace Ninja.WebSockets.Internal
 
         public event EventHandler<PongEventArgs> Pong;
 
+        Queue<ArraySegment<byte>> _messageQueue = new Queue<ArraySegment<byte>>();
+        SemaphoreSlim _sendSemaphore = new SemaphoreSlim(1, 1);
         public WebSocketHttpContext Context { get; set; }
 
         internal WebSocketImplementation(Guid guid, Func<MemoryStream> recycledStreamFactory, Stream stream, TimeSpan keepAliveInterval, string secWebSocketExtensions, bool includeExceptionInCloseResponse, bool isClient, string subProtocol)
@@ -250,8 +253,7 @@ namespace Ninja.WebSockets.Internal
                 }
 
                 await WriteStreamToNetwork(stream, cancellationToken);
-                // TODO: is this correct??
-                _isContinuationFrame = !endOfMessage;
+                _isContinuationFrame = !endOfMessage; // TODO: is this correct??
             }
         }
 
@@ -316,8 +318,7 @@ namespace Ninja.WebSockets.Internal
         {
             if (_state == WebSocketState.Open)
             {
-                // set this before we write to the network because the write may fail
-                _state = WebSocketState.Closed;
+                _state = WebSocketState.Closed; // set this before we write to the network because the write may fail
 
                 using (MemoryStream stream = _recycledStreamFactory())
                 {
@@ -389,8 +390,7 @@ namespace Ninja.WebSockets.Internal
         ArraySegment<byte> BuildClosePayload(WebSocketCloseStatus closeStatus, string statusDescription)
         {
             byte[] statusBuffer = BitConverter.GetBytes((ushort)closeStatus);
-            // network byte order (big endian)
-            Array.Reverse(statusBuffer);
+            Array.Reverse(statusBuffer); // network byte order (big endian)
 
             if (statusDescription == null)
             {
@@ -521,8 +521,6 @@ namespace Ninja.WebSockets.Internal
 #endif
         }
 
-        Task writeTask = Task.CompletedTask;
-
         /// <summary>
         /// Puts data on the wire
         /// </summary>
@@ -532,17 +530,34 @@ namespace Ninja.WebSockets.Internal
             ArraySegment<byte> buffer = GetBuffer(stream);
             if (_stream is SslStream)
             {
-                if (writeTask.IsCompleted)
+                _messageQueue.Enqueue(buffer);
+                await _sendSemaphore.WaitAsync();
+                try
                 {
-                    writeTask = _stream.WriteAsync(buffer.Array, buffer.Offset, buffer.Count, cancellationToken);
+                    while (_messageQueue.Count > 0)
+                    {
+                        var _buf = _messageQueue.Dequeue();
+                        try
+                        {
+                            if (_stream != null && _stream.CanWrite)
+                            {
+                                await _stream.WriteAsync(_buf.Array, _buf.Offset, _buf.Count, cancellationToken).ConfigureAwait(false);
+                            }
+                        }
+                        catch (IOException)
+                        {
+                            // do nothing, the socket is not connected
+                        }
+                        catch (SocketException)
+                        {
+                            // do nothing, the socket is not connected
+                        }
+                    }
                 }
-                else
+                finally
                 {
-                    writeTask = writeTask.ContinueWith((prevTask) =>
-                        _stream.WriteAsync(buffer.Array, buffer.Offset, buffer.Count, cancellationToken));
+                    _sendSemaphore.Release();
                 }
-                await writeTask;
-                await _stream.FlushAsync();
             }
             else
             {

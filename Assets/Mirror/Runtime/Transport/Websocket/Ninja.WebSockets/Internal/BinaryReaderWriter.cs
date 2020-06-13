@@ -72,8 +72,7 @@ namespace Ninja.WebSockets.Internal
 
             if (!isLittleEndian)
             {
-                // big endian
-                Array.Reverse(buffer.Array, buffer.Offset, 2);
+                Array.Reverse(buffer.Array, buffer.Offset, 2); // big endian
             }
 
             return BitConverter.ToUInt16(buffer.Array, buffer.Offset);
@@ -85,8 +84,7 @@ namespace Ninja.WebSockets.Internal
 
             if (!isLittleEndian)
             {
-                // big endian
-                Array.Reverse(buffer.Array, buffer.Offset, 8);
+                Array.Reverse(buffer.Array, buffer.Offset, 8); // big endian
             }
 
             return BitConverter.ToUInt64(buffer.Array, buffer.Offset);
@@ -98,8 +96,7 @@ namespace Ninja.WebSockets.Internal
 
             if (!isLittleEndian)
             {
-                // big endian
-                Array.Reverse(buffer.Array, buffer.Offset, 8);
+                Array.Reverse(buffer.Array, buffer.Offset, 8); // big endian
             }
 
             return BitConverter.ToInt64(buffer.Array, buffer.Offset);

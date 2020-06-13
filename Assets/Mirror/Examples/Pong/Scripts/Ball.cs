@@ -29,8 +29,7 @@ namespace Mirror.Examples.Pong
             return (ballPos.y - racketPos.y) / racketHeight;
         }
 
-        // only call this on server
-        [ServerCallback]
+        [ServerCallback] // only call this on server
         void OnCollisionEnter2D(Collision2D col)
         {
             // Note: 'col' holds the collision information. If the

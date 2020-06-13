@@ -41,12 +41,12 @@ namespace Mirror.Examples.Additive
         public float maxTurnSpeed = 150f;
 
         [Header("Diagnostics")]
-        public float horizontal;
-        public float vertical;
-        public float turn;
-        public float jumpSpeed;
+        public float horizontal = 0f;
+        public float vertical = 0f;
+        public float turn = 0f;
+        public float jumpSpeed = 0f;
         public bool isGrounded = true;
-        public bool isFalling;
+        public bool isFalling = false;
         public Vector3 velocity;
 
         void Update()
@@ -71,9 +71,7 @@ namespace Mirror.Examples.Additive
                 isFalling = false;
 
             if ((isGrounded || !isFalling) && jumpSpeed < 1f && Input.GetKey(KeyCode.Space))
-            {
                 jumpSpeed = Mathf.Lerp(jumpSpeed, 1f, 0.5f);
-            }
             else if (!isGrounded)
             {
                 isFalling = true;

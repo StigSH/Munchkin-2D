@@ -33,13 +33,37 @@ namespace Mirror
         // pack message before sending
         // -> NetworkWriter passed as arg so that we can use .ToArraySegment
         //    and do an allocation free send before recycling it.
+        // Deprecated 03/03/2019
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use Pack<T> instead")]
+        public static byte[] PackMessage(int msgType, MessageBase msg)
+        {
+            using (PooledNetworkWriter writer = NetworkWriterPool.GetWriter())
+            {
+                try
+                {
+                    // write message type
+                    writer.WriteInt16((short)msgType);
+
+                    // serialize message into writer
+                    msg.Serialize(writer);
+
+                    // return byte[]
+                    return writer.ToArray();
+                }
+                finally { }
+            }
+        }
+
+        // pack message before sending
+        // -> NetworkWriter passed as arg so that we can use .ToArraySegment
+        //    and do an allocation free send before recycling it.
         public static void Pack<T>(T message, NetworkWriter writer) where T : IMessageBase
         {
             // if it is a value type,  just use typeof(T) to avoid boxing
             // this works because value types cannot be derived
             // if it is a reference type (for example IMessageBase),
             // ask the message for the real type
-            int msgType = GetId(default(T) != null ? typeof(T) : message.GetType());
+            int msgType = GetId(typeof(T).IsValueType ? typeof(T) : message.GetType());
             writer.WriteUInt16((ushort)msgType);
 
             // serialize message into writer
@@ -98,10 +122,7 @@ namespace Mirror
             }
         }
 
-        internal static NetworkMessageDelegate MessageHandler<T, C>(Action<C, T> handler, bool requireAuthenication)
-            where T : IMessageBase, new()
-            where C : NetworkConnection
-            => (conn, reader, channelId) =>
+        internal static NetworkMessageDelegate MessageHandler<T>(Action<NetworkConnection, T> handler, bool requireAuthenication) where T : IMessageBase, new() => networkMessage =>
         {
             // protect against DOS attacks if attackers try to send invalid
             // data packets to crash the server/client. there are a thousand
@@ -118,32 +139,29 @@ namespace Mirror
             T message = default;
             try
             {
-                if (requireAuthenication && !conn.isAuthenticated)
+                if (requireAuthenication && !networkMessage.conn.isAuthenticated)
                 {
                     // message requires authentication, but the connection was not authenticated
-                    Debug.LogWarning($"Closing connection: {conn}. Received message {typeof(T)} that required authentication, but the user has not authenticated yet");
-                    conn.Disconnect();
+                    Debug.LogWarning($"Closing connection: {networkMessage.conn}. Received message {typeof(T)} that required authentication, but the user has not authenticated yet");
+                    networkMessage.conn.Disconnect();
                     return;
                 }
 
-                // if it is a value type, just use defult(T)
-                // otherwise allocate a new instance
-                message = default(T) != null ? default(T) : new T();
-                message.Deserialize(reader);
+                message = networkMessage.ReadMessage<T>();
             }
             catch (Exception exception)
             {
-                Debug.LogError("Closed connection: " + conn + ". This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: " + exception);
-                conn.Disconnect();
+                Debug.LogError("Closed connection: " + networkMessage.conn + ". This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: " + exception);
+                networkMessage.conn.Disconnect();
                 return;
             }
             finally
             {
                 // TODO: Figure out the correct channel
-                NetworkDiagnostics.OnReceive(message, channelId, reader.Length);
+                NetworkDiagnostics.OnReceive(message, networkMessage.channelId, networkMessage.reader.Length);
             }
 
-            handler((C)conn, message);
+            handler(networkMessage.conn, message);
         };
     }
 }

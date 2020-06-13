@@ -91,8 +91,8 @@ GameObject:
   - component: {fileID: 3020701542657391392}
   - component: {fileID: 3020701542657391393}
   - component: {fileID: 3020701542657391398}
-  - component: {fileID: -4067303041183926632}
-  - component: {fileID: -8509921311949614476}
+  - component: {fileID: 3159720859209545660}
+  - component: {fileID: 7990724003671008460}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -223,11 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8dd75664b6b5d4e9d93fb7fcee118e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Card1: {fileID: 4750502998070953752, guid: 640fc5463be464c4bb1140570bcb863c, type: 3}
-  Card2: {fileID: 9084121523062540237, guid: b42fc0e954b0f9342ac3276d20cfe49b, type: 3}
-  PlayerHand: {fileID: 0}
-  EnemyHand: {fileID: 0}
---- !u!114 &-4067303041183926632
+  syncMode: 0
+  syncInterval: 0.1
+  playerManager: {fileID: 0}
+--- !u!114 &3159720859209545660
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,14 +235,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3020701542657391395}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: c43194c469aa73249b8c9883214f0750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
-  hasSpawned: 0
---- !u!114 &-8509921311949614476
+--- !u!114 &7990724003671008460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,7 +250,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3020701542657391395}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: bb5e996da7bf7a34e85f27a4c44331b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -261,3 +259,4 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
+  compressRotation: 1

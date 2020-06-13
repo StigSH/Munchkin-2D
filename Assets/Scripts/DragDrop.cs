@@ -11,6 +11,7 @@ namespace Assets.Scripts
     class DragDrop : NetworkBehaviour
     {
         public GameObject Canvas;
+        
 
         private bool isDragging = false;
         private bool isOverDropZone = false;
@@ -26,6 +27,7 @@ namespace Assets.Scripts
 
         void Update()   
         {
+
             if(isDragging)
             {
                 transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 332019864715155040}
   - component: {fileID: 2976319057713719652}
   - component: {fileID: 3824012796385219828}
-  - component: {fileID: 6173749863398858313}
-  - component: {fileID: 4599940428107943087}
+  - component: {fileID: 8929260771373425973}
+  - component: {fileID: 6849385148410216363}
   m_Layer: 5
   m_Name: EnemyArea
   m_TagString: Untagged
@@ -73,7 +73,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &6173749863398858313
+--- !u!114 &8929260771373425973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,14 +82,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5581451437410264192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: c43194c469aa73249b8c9883214f0750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
-  hasSpawned: 0
---- !u!114 &4599940428107943087
+--- !u!114 &6849385148410216363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,7 +97,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5581451437410264192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: bb5e996da7bf7a34e85f27a4c44331b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -107,3 +106,4 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
+  compressRotation: 1

@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,10 +8,11 @@ namespace Mirror
     /// </summary>
     /// <remarks>
     /// <para>The animation of game objects can be networked by this component. There are two models of authority for networked movement:</para>
-    /// <para>If the object has authority on the client, then it should be animated locally on the owning client. The animation state information will be sent from the owning client to the server, then broadcast to all of the other clients. This is common for player objects.</para>
+    /// <para>If the object has authority on the client, then it should animated locally on the owning client. The animation state information will be sent from the owning client to the server, then broadcast to all of the other clients. This is common for player objects.</para>
     /// <para>If the object has authority on the server, then it should be animated on the server and state information will be sent to all clients. This is common for objects not related to a specific client, such as an enemy unit.</para>
-    /// <para>The NetworkAnimator synchronizes all animation parameters of the selected Animator. It does not automatically sychronize triggers. The function SetTrigger can by used by an object with authority to fire an animation trigger on other clients.</para>
+    /// <para>The NetworkAnimator synchronizes the animation parameters that are checked in the inspector view. It does not automatically sychronize triggers. The function SetTrigger can by used by an object with authority to fire an animation trigger on other clients.</para>
     /// </remarks>
+    [DisallowMultipleComponent]
     [AddComponentMenu("Network/NetworkAnimator")]
     [RequireComponent(typeof(NetworkIdentity))]
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkAnimator.html")]
@@ -36,12 +36,11 @@ namespace Mirror
         bool[] lastBoolParameters;
         AnimatorControllerParameter[] parameters;
 
-        // multiple layers
-        int[] animationHash;
+        int[] animationHash; // multiple layers
         int[] transitionHash;
         float sendTimer;
 
-        bool SendMessagesAllowed
+        bool sendMessagesAllowed
         {
             get
             {
@@ -67,9 +66,7 @@ namespace Mirror
         {
             // store the animator parameters in a variable - the "Animator.parameters" getter allocates
             // a new parameter array every time it is accessed so we should avoid doing it in a loop
-            parameters = animator.parameters
-                .Where(par => !animator.IsParameterControlledByCurve(par.nameHash))
-                .ToArray();
+            parameters = animator.parameters;
             lastIntParameters = new int[parameters.Length];
             lastFloatParameters = new float[parameters.Length];
             lastBoolParameters = new bool[parameters.Length];
@@ -80,7 +77,7 @@ namespace Mirror
 
         void FixedUpdate()
         {
-            if (!SendMessagesAllowed)
+            if (!sendMessagesAllowed)
                 return;
 
             CheckSendRate();
@@ -139,7 +136,7 @@ namespace Mirror
 
         void CheckSendRate()
         {
-            if (SendMessagesAllowed && syncInterval > 0 && sendTimer < Time.time)
+            if (sendMessagesAllowed && syncInterval > 0 && sendTimer < Time.time)
             {
                 sendTimer = Time.time + syncInterval;
 
@@ -220,19 +217,28 @@ namespace Mirror
                 {
                     int newIntValue = animator.GetInteger(par.nameHash);
                     changed = newIntValue != lastIntParameters[i];
-                    lastIntParameters[i] = newIntValue;
+                    if (changed)
+                    {
+                        lastIntParameters[i] = newIntValue;
+                    }
                 }
                 else if (par.type == AnimatorControllerParameterType.Float)
                 {
                     float newFloatValue = animator.GetFloat(par.nameHash);
                     changed = Mathf.Abs(newFloatValue - lastFloatParameters[i]) > 0.001f;
-                    lastFloatParameters[i] = newFloatValue;
+                    if (changed)
+                    {
+                        lastFloatParameters[i] = newFloatValue;
+                    }
                 }
                 else if (par.type == AnimatorControllerParameterType.Bool)
                 {
                     bool newBoolValue = animator.GetBool(par.nameHash);
                     changed = newBoolValue != lastBoolParameters[i];
-                    lastBoolParameters[i] = newBoolValue;
+                    if (changed)
+                    {
+                        lastBoolParameters[i] = newBoolValue;
+                    }
                 }
                 if (changed)
                 {
@@ -360,6 +366,16 @@ namespace Mirror
         }
 
         /// <summary>
+        /// Causes an animation trigger to be reset for a networked object.
+        /// <para>If local authority is set, and this is called from the client, then the trigger will be reset on the server and all clients. If not, then this is called on the server, and the trigger will be reset on all clients.</para>
+        /// </summary>
+        /// <param name="triggerName">Name of trigger.</param>
+        public void ResetTrigger(string triggerName)
+        {
+            ResetTrigger(Animator.StringToHash(triggerName));
+        }
+
+        /// <summary>
         /// Causes an animation trigger to be invoked for a networked object.
         /// </summary>
         /// <param name="hash">Hash id of trigger (from the Animator).</param>
@@ -392,16 +408,6 @@ namespace Mirror
 
                 RpcOnAnimationTriggerClientMessage(hash);
             }
-        }
-
-        /// <summary>
-        /// Causes an animation trigger to be reset for a networked object.
-        /// <para>If local authority is set, and this is called from the client, then the trigger will be reset on the server and all clients. If not, then this is called on the server, and the trigger will be reset on all clients.</para>
-        /// </summary>
-        /// <param name="triggerName">Name of trigger.</param>
-        public void ResetTrigger(string triggerName)
-        {
-            ResetTrigger(Animator.StringToHash(triggerName));
         }
 
         /// <summary>
@@ -518,16 +524,12 @@ namespace Mirror
         [ClientRpc]
         void RpcOnAnimationTriggerClientMessage(int hash)
         {
-            if (isServer) return;
-
             HandleAnimTriggerMsg(hash);
         }
 
         [ClientRpc]
         void RpcOnAnimationResetTriggerClientMessage(int hash)
         {
-            if (isServer) return;
-
             HandleAnimResetTriggerMsg(hash);
         }
 

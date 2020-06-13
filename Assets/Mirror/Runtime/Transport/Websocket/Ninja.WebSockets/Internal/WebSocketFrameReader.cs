@@ -105,9 +105,8 @@ namespace Ninja.WebSockets.Internal
 
             if (count >= 2)
             {
-                // network byte order
-                Array.Reverse(buffer.Array, buffer.Offset, 2);
-                int closeStatusCode = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+                Array.Reverse(buffer.Array, buffer.Offset, 2); // network byte order
+                int closeStatusCode = (int)BitConverter.ToUInt16(buffer.Array, buffer.Offset);
                 if (Enum.IsDefined(typeof(WebSocketCloseStatus), closeStatusCode))
                 {
                     closeStatus = (WebSocketCloseStatus)closeStatusCode;
@@ -154,8 +153,7 @@ namespace Ninja.WebSockets.Internal
             else if (len == 127)
             {
                 len = (uint)await BinaryReaderWriter.ReadULongExactly(fromStream, false, smallBuffer, cancellationToken);
-                // 2GB - not part of the spec but just a precaution. Send large volumes of data in smaller frames.
-                const uint maxLen = 2147483648;
+                const uint maxLen = 2147483648; // 2GB - not part of the spec but just a precaution. Send large volumes of data in smaller frames.
 
                 // protect ourselves against bad data
                 if (len > maxLen || len < 0)
