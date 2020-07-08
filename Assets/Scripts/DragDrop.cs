@@ -41,8 +41,10 @@ namespace Assets.Scripts
 
             if(isDragging)
             {
-                transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                transform.SetParent(Canvas.transform,true);
+               transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y,0));
+                transform.position = new Vector3(transform.position.x, transform.position.y, 0); //making sure that the card is visible by forcing the Z position to be 0 when camera is -1
+                //new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                transform.SetParent(Canvas.transform, true);
             }
         }
 

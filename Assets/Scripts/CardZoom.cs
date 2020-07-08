@@ -18,13 +18,14 @@ public class CardZoom : MonoBehaviour
 
     public void OnHoverEnter()
     {
-            
-        zoomCard = Instantiate(gameObject, new Vector2(Input.mousePosition.x, Input.mousePosition.y + 250), Quaternion.identity);
+        //Vector3 ZoomPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+
+      
+        zoomCard = Instantiate(gameObject,Camera.main.ViewportToWorldPoint(new Vector3(0.9f,0.3f,0)), Quaternion.identity);
+        zoomCard.transform.position = new Vector3(zoomCard.transform.position.x, zoomCard.transform.position.y,0); //again we are adjusting so the object is in front of the camera.
         zoomCard.transform.SetParent(Canvas.transform, true);
         zoomCard.layer = LayerMask.NameToLayer("Zoom");
-
-
-        zoomCard.transform.localPosition = new Vector3(0, 0, 0);
+        
         RectTransform rect = zoomCard.GetComponent<RectTransform>();
         rect.localScale = new Vector2(1, 1);
 

@@ -54,31 +54,32 @@ public class PlayerManager : NetworkBehaviour
     {
 
 
-
         //Deal 4 treasure cards and 4 door cards
-               
+
+
+
         for (int i = 0; i < 4; i++)
         {
             //Using ScriptableObject Database
             GameObject card = Instantiate(CardTemplate);
             int cardInt = Random.Range(0, cardListManager.CardList.Count);
-            
+
             card.GetComponent<CardViz>().card = cardListManager.CardList[cardInt]; //Changing card in cardviz here only works on host
             CardTemplate.transform.localScale = new Vector2(0.5f, 0.5f);
-            
+
             NetworkServer.Spawn(card, connectionToClient);
             RpcLoadCard(card, cardInt); //We use Rpc in order to make this work on clients as well
             RpcShowCard(card, "Dealt");
 
 
-            //From tutorial
-            //GameObject card = Instantiate(cards[Random.Range(0, cards.Count)], new Vector3(0, 0, 0), Quaternion.identity);
-            //card.transform.localScale = new Vector2(0.5f, 0.5f);
-            //NetworkServer.Spawn(card, connectionToClient);
-            //RpcShowCard(card, "Dealt");
+            //    //From tutorial
+            //    //GameObject card = Instantiate(cards[Random.Range(0, cards.Count)], new Vector3(0, 0, 0), Quaternion.identity);
+            //    //card.transform.localScale = new Vector2(0.5f, 0.5f);
+            //    //NetworkServer.Spawn(card, connectionToClient);
+            //    //RpcShowCard(card, "Dealt");
 
+            }
         }
-    }
 
     public void PlayCard(GameObject card)
     {

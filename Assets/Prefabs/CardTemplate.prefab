@@ -270,8 +270,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3747910964450481005, guid: b42fc0e954b0f9342ac3276d20cfe49b,
-            type: 3}
+        - m_Target: {fileID: 7373630542808503777}
           m_MethodName: OnHoverExit
           m_Mode: 1
           m_Arguments:
