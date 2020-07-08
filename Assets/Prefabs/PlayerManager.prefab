@@ -52,7 +52,12 @@ MonoBehaviour:
   PlayerHand: {fileID: 0}
   EnemyHand: {fileID: 0}
   PlayerArea: {fileID: 0}
+  EnemyArea: {fileID: 0}
   MainCanvas: {fileID: 0}
+  CardTemplate: {fileID: 2675370599684974401, guid: dcc4d008bc3bc6c4d90f3639b7dbee9f,
+    type: 3}
+  CardManager: {fileID: 2283723183651879620, guid: adb084f3a42482247a90bcc2211ee9c2,
+    type: 3}
 --- !u!114 &2856830140786029335
 MonoBehaviour:
   m_ObjectHideFlags: 0
