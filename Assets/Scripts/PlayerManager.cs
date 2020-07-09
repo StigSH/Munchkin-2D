@@ -10,12 +10,7 @@ using System.Linq;
 
 public class PlayerManager : NetworkBehaviour
 {
-    public GameObject Card1;
-    public GameObject Card2;
-    public GameObject PlayerHand;
-    public GameObject EnemyHand;
-    public GameObject PlayerArea;
-    public GameObject EnemyArea;
+    public GameObject Player;
     public GameObject MainCanvas;
     public GameObject CardTemplate;
     public GameObject CardManager;
@@ -29,10 +24,7 @@ public class PlayerManager : NetworkBehaviour
 
         //ClientScene.RegisterSpawnHandler()
 
-        PlayerHand = GameObject.Find("PlayerHand");
-        EnemyHand = GameObject.Find("EnemyHand");
-        PlayerArea = GameObject.Find("PlayerArea");
-        EnemyArea = GameObject.Find("EnemyArea");
+
 
     }
 
@@ -96,32 +88,32 @@ public class PlayerManager : NetworkBehaviour
     [ClientRpc] 
     void RpcShowCard(GameObject card, string type)
     {
-        if (type == "Dealt")
-        {
-            if (hasAuthority)
-            {
-                card.transform.SetParent(PlayerHand.transform, false);
-            }
-            else
-            {
-                card.transform.SetParent(EnemyHand.transform, false);
-                card.GetComponent<CardFlipper>().Flip();
-            }
-        }
-        else if (type == "Played")
-        {
-            if(hasAuthority)
-            {
-                card.transform.SetParent(PlayerArea.transform, false);
-            }
-            else
-            {
-                card.transform.SetParent(EnemyArea.transform, false);
-                card.GetComponent<CardFlipper>().Flip();
-            }
+        //if (type == "Dealt")
+        //{
+        //    if (hasAuthority)
+        //    {
+        //        card.transform.SetParent(PlayerHand.transform, false);
+        //    }
+        //    else
+        //    {
+        //        card.transform.SetParent(EnemyHand.transform, false);
+        //        card.GetComponent<CardFlipper>().Flip();
+        //    }
+        //}
+        //else if (type == "Played")
+        //{
+        //    if(hasAuthority)
+        //    {
+        //        card.transform.SetParent(PlayerArea.transform, false);
+        //    }
+        //    else
+        //    {
+        //        card.transform.SetParent(EnemyArea.transform, false);
+        //        card.GetComponent<CardFlipper>().Flip();
+        //    }
 
             
-        }
+        //}
 
     }
 

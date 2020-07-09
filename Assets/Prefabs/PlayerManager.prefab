@@ -47,17 +47,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  Card1: {fileID: 4750502998070953752, guid: 640fc5463be464c4bb1140570bcb863c, type: 3}
-  Card2: {fileID: 9084121523062540237, guid: b42fc0e954b0f9342ac3276d20cfe49b, type: 3}
-  PlayerHand: {fileID: 0}
-  EnemyHand: {fileID: 0}
-  PlayerArea: {fileID: 0}
-  EnemyArea: {fileID: 0}
+  Player: {fileID: 9036308776631490275, guid: 2c69eaefc4926e6478a1564753db3d7e, type: 3}
   MainCanvas: {fileID: 0}
   CardTemplate: {fileID: 2675370599684974401, guid: dcc4d008bc3bc6c4d90f3639b7dbee9f,
     type: 3}
   CardManager: {fileID: 2283723183651879620, guid: adb084f3a42482247a90bcc2211ee9c2,
     type: 3}
+  cardListManager: {fileID: 0}
 --- !u!114 &2856830140786029335
 MonoBehaviour:
   m_ObjectHideFlags: 0
