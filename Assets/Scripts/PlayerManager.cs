@@ -10,18 +10,56 @@ using System.Linq;
 
 public class PlayerManager : NetworkBehaviour
 {
-    public GameObject Player;
+
     public GameObject MainCanvas;
     public GameObject CardTemplate;
     public GameObject CardManager;
+    public CardListManager cardListManager;
+
+    [SyncVar]
+    public int PlayerNum;
+
 
     List<GameObject> cards = new List<GameObject>();
-    public CardListManager cardListManager;
+
+    GameObject NewPlayer;
+
+
 
     public override void OnStartClient()
     {
         base.OnStartClient();
 
+        MainCanvas = GameObject.Find("Main Canvas");
+        gameObject.transform.SetParent(MainCanvas.transform, true);
+        if (NetworkServer.connections.Count > 0) PlayerNum = NetworkServer.connections.Count;
+
+        if(NetworkServer.connections.Count == 1)
+        {
+            gameObject.transform.localPosition = new Vector3(0, -260, 0);
+        }
+        else if(NetworkServer.connections.Count == 2)
+        {
+            gameObject.transform.localPosition = new Vector3(0, 280, 0);
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0,0,180));
+        }
+        else if (NetworkServer.connections.Count == 3)
+        {
+            gameObject.transform.localPosition = new Vector3(-240,0 , 0);
+            gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, -90));
+        }
+        else if (NetworkServer.connections.Count == 4)
+        {
+            gameObject.transform.localPosition = new Vector3(240, 0, 0);
+            gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        }
+        //player 2: x = 0, y = 295, zrotation = 180 
+        //player 3: x = -250, y = 0, zrotation = -90
+        //player 4: x= 250 y = 0, zrotation = 90
+
+        RpcTurnOnCamera(gameObject);
+
+       
         //ClientScene.RegisterSpawnHandler()
 
 
@@ -35,6 +73,7 @@ public class PlayerManager : NetworkBehaviour
         //from tutorial
         //cards.Add(Card1);
         //cards.Add(Card2);
+        
 
         //Test add cards
         cardListManager = CardManager.GetComponent<CardListManager>();
@@ -124,6 +163,17 @@ public class PlayerManager : NetworkBehaviour
     }
 
 
-
+    [ClientRpc]
+    void RpcTurnOnCamera (GameObject NewPlayer)
+    {
+        if(hasAuthority)
+        {
+            NewPlayer.GetComponentInChildren<Camera>().enabled = true;
+        }
+        else
+        {
+            NewPlayer.GetComponentInChildren<Camera>().enabled = false;
+        }
+    }
 
 }

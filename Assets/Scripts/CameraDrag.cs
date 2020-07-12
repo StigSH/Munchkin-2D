@@ -22,6 +22,7 @@ public class CameraDrag : MonoBehaviour
 
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
+
         float left = Screen.width * 0.2f;
         float right = Screen.width - (Screen.width * 0.2f);
         float up = Screen.height * 0.2f;
@@ -47,22 +48,26 @@ public class CameraDrag : MonoBehaviour
 
             if (!Input.GetMouseButton(1)) return;
 
-            Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+            Vector3 pos = gameObject.GetComponentInChildren<Camera>().ScreenToViewportPoint(Input.mousePosition - dragOrigin);
             float moveX = pos.x * dragSpeed;
             float moveY = pos.y * dragSpeed * 0.5f;
 
-            if(this.transform.position.x + moveX > outerRight || this.transform.position.x + moveX < outerLeft)
+            if (pos.x > 0 || pos.y>0) {
+                Debug.Log("move");
+            }
+
+            if(this.transform.localPosition.x + moveX > outerRight || this.transform.localPosition.x + moveX < outerLeft)
             {
                 moveX = 0;
             }
 
-            if (this.transform.position.y + moveY > outerUp || this.transform.position.y + moveY < outerDown)
+            if (this.transform.localPosition.y + moveY > outerUp || this.transform.localPosition.y + moveY < outerDown)
             {
                 moveY= 0;
             }
 
 
-            transform.Translate(new Vector3(moveX,moveY,0), Space.World);
+            transform.Translate(new Vector3(moveX,moveY,0), Space.Self);
         }
     }
 }

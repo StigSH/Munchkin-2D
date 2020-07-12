@@ -18,7 +18,7 @@ public class CameraZoom: MonoBehaviour
 
     void Start()
     {
-        targetOrtho = Camera.main.orthographicSize;
+        targetOrtho = gameObject.GetComponentInChildren<Camera>().orthographicSize;
         //zoomSpeed = 5;
         //smoothSpeed = 5.0f;
         //minOrtho = 1.0f;
@@ -35,7 +35,7 @@ public class CameraZoom: MonoBehaviour
             targetOrtho = Mathf.Clamp(targetOrtho, minOrtho, maxOrtho);
         }
 
-        Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
+        gameObject.GetComponentInChildren<Camera>().orthographicSize = Mathf.MoveTowards(gameObject.GetComponentInChildren<Camera>().orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
 
     }
 
