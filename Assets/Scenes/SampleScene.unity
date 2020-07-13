@@ -242,8 +242,6 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
-  - {fileID: 4750502998070953752, guid: 640fc5463be464c4bb1140570bcb863c, type: 3}
-  - {fileID: 9084121523062540237, guid: b42fc0e954b0f9342ac3276d20cfe49b, type: 3}
   - {fileID: 3020701542657391395, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c, type: 3}
   - {fileID: 2675370599684974401, guid: dcc4d008bc3bc6c4d90f3639b7dbee9f, type: 3}
   - {fileID: 9036308776631490275, guid: 2c69eaefc4926e6478a1564753db3d7e, type: 3}
@@ -544,11 +542,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 958826083}
     m_Modifications:
-    - target: {fileID: -4067303041183926632, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c,
-        type: 3}
-      propertyPath: sceneId
-      value: 660116687
-      objectReference: {fileID: 0}
     - target: {fileID: 3020701542657391394, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -661,18 +654,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020701542657391398, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c,
         type: 3}
-      propertyPath: PlayerHand
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3020701542657391398, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c,
-        type: 3}
-      propertyPath: EnemyHand
+      propertyPath: playerManager
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3159720859209545660, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c,
         type: 3}
       propertyPath: sceneId
       value: 601116994
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159720859209545660, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 849d7060d8c787c4eaaedeaf6c5a5f4c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 849d7060d8c787c4eaaedeaf6c5a5f4c, type: 3}

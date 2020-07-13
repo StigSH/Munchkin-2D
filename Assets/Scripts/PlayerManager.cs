@@ -57,7 +57,7 @@ public class PlayerManager : NetworkBehaviour
         //player 3: x = -250, y = 0, zrotation = -90
         //player 4: x= 250 y = 0, zrotation = 90
 
-        RpcTurnOnCamera(gameObject);
+        CmdTurnOnCamera(gameObject);
 
        
         //ClientScene.RegisterSpawnHandler()
@@ -95,11 +95,11 @@ public class PlayerManager : NetworkBehaviour
             GameObject card = Instantiate(CardTemplate);
             int cardInt = Random.Range(0, cardListManager.CardList.Count);
 
-            card.GetComponent<CardViz>().card = cardListManager.CardList[cardInt]; //Changing card in cardviz here only works on host
+            //card.GetComponent<CardViz>().card = cardListManager.CardList[cardInt]; //Changing card in cardviz here only works on host
             CardTemplate.transform.localScale = new Vector2(0.5f, 0.5f);
 
             NetworkServer.Spawn(card, connectionToClient);
-            RpcLoadCard(card, cardInt); //We use Rpc in order to make this work on clients as well
+            CmdLoadCard(card, cardInt); //We use Rpc in order to make this work on clients as well
             RpcShowCard(card, "Dealt");
 
 
@@ -155,6 +155,12 @@ public class PlayerManager : NetworkBehaviour
         //}
 
     }
+    
+    [Command]
+    void CmdLoadCard(GameObject card, int cardInt)
+    {
+        RpcLoadCard(card, cardInt);
+    }
 
     [ClientRpc]
     void RpcLoadCard(GameObject card, int cardInt)
@@ -162,17 +168,22 @@ public class PlayerManager : NetworkBehaviour
         card.GetComponent<CardManagerScript>().LoadCardFromCardList(card, cardInt);
     }
 
+    [Command]
+    public void CmdTurnOnCamera(GameObject player)
+    {
+        RpcTurnOnCamera(player);
+    }
 
     [ClientRpc]
-    void RpcTurnOnCamera (GameObject NewPlayer)
+    void RpcTurnOnCamera (GameObject player)
     {
         if(hasAuthority)
         {
-            NewPlayer.GetComponentInChildren<Camera>().enabled = true;
+            player.GetComponentInChildren<Camera>().enabled = true;
         }
         else
         {
-            NewPlayer.GetComponentInChildren<Camera>().enabled = false;
+            player.GetComponentInChildren<Camera>().enabled = false;
         }
     }
 
