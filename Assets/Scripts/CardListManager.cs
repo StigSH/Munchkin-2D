@@ -7,5 +7,7 @@ using UnityEngine;
 
 public class CardListManager : MonoBehaviour
 {
-    public List<Card> CardList;
+    public List<Card> TreasureCardList;
+    public List<Card> DoorCard;
+    public List<Card> FisherYates;
 }

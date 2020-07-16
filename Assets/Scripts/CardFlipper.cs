@@ -9,7 +9,7 @@ public class CardFlipper : MonoBehaviour
     {
         foreach(Transform child in transform)
         {
-            if(child.gameObject.name != "Back")
+            if(child.gameObject.name != "Back" && child.gameObject.name != "CardCount")
             {
                 if(child.gameObject.activeSelf)
                 {

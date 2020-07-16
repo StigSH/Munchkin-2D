@@ -43,7 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f8f6df66342fb4ba0beb8712bf4d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardList:
-  - {fileID: 11400000, guid: c19d61df50c7afd459e5e76e3d2e6ae6, type: 2}
+  TreasureCardList:
   - {fileID: 11400000, guid: de89efba396684f45b6578965da7fa03, type: 2}
   - {fileID: 11400000, guid: 013221d820edd974abb4ac90c85ef93f, type: 2}
+  - {fileID: 11400000, guid: c19d61df50c7afd459e5e76e3d2e6ae6, type: 2}
+  DoorCard: []
+  FisherYates:
+  - {fileID: 11400000, guid: 013221d820edd974abb4ac90c85ef93f, type: 2}
+  - {fileID: 11400000, guid: c19d61df50c7afd459e5e76e3d2e6ae6, type: 2}

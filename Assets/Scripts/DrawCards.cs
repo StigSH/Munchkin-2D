@@ -16,6 +16,7 @@ public class DrawCards : NetworkBehaviour
         NetworkIdentity networkIdentity = NetworkClient.connection.identity;
         playerManager = networkIdentity.GetComponent<PlayerManager>();
 
+        
         playerManager.CmdDealCards();
 
      

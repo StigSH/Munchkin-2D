@@ -19,7 +19,6 @@ public class CameraDrag : MonoBehaviour
     {
 
 
-
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
 
@@ -52,10 +51,7 @@ public class CameraDrag : MonoBehaviour
             float moveX = pos.x * dragSpeed;
             float moveY = pos.y * dragSpeed * 0.5f;
 
-            if (pos.x > 0 || pos.y>0) {
-                Debug.Log("move");
-            }
-
+            
             if(this.transform.localPosition.x + moveX > outerRight || this.transform.localPosition.x + moveX < outerLeft)
             {
                 moveX = 0;

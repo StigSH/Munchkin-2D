@@ -80,7 +80,7 @@ namespace Assets.Scripts
                 NetworkIdentity networkIdentity = NetworkClient.connection.identity;
                 playerManager = networkIdentity.GetComponent<PlayerManager>();
 
-                playerManager.PlayCard(gameObject);
+                //playerManager.PlayCard(gameObject);
 
             }
             else

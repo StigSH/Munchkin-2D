@@ -10,8 +10,7 @@ public class CardManagerScript : MonoBehaviour
     public void LoadCardFromCardList(GameObject card, int CardInt)
     {
         CardListManager cardListManager = CardManager.GetComponent<CardListManager>();
-
-        card.GetComponent<CardViz>().card = cardListManager.CardList[CardInt];
+        card.GetComponent<CardViz>().card = cardListManager.FisherYates[CardInt];
     }
 
     
